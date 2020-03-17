@@ -8,7 +8,7 @@ output:
 ``` {r setup, include=FALSE}
 #--------------Packages-------------------------
 library(devtools)
-#devtools::install_github("RamiKrispin/coronavirus")
+#devtools::install_github("RamiKrispin/coronavirus", force=T)
 library(coronavirus)
 library(flexdashboard)
 library(tidyverse)
@@ -16,6 +16,8 @@ library(ggmap)
 library(leaflet)
 library(htmltools)
 library(dplyr)
+library(DT)
+library(plotly)
 #-------------Data-------------------------------
 data("coronavirus")
 df <- coronavirus
@@ -39,7 +41,30 @@ m <- leaflet() %>%
   color = "red",
   stroke = FALSE, fillOpacity = 0.5,
   label = htmlEscape(paste0(df_us$Province.State,",",df_us$total_cases)))
-  
+
+
+#---------comparison--------------------------------
+df_topten <- df %>% 
+                filter(df$Country.Region %in% c("China","Italy","Iran","Spain","Korea, South",
+                                                "Germany","France","US","Switzerland","United Kingdom") & cases >= 1 & type=="confirmed")
+
+df_topten <- df_topten %>% 
+                group_by(Country.Region, date) %>%
+                arrange(Country.Region, date)
+
+library(data.table)
+df_topten <- data.table(df_topten, key = c("Country.Region"))
+df_topten[, csum := cumsum(cases), by = key(df_topten)]
+
+p <- df_topten %>% filter(Country.Region=="China") %>% 
+        ggplot(aes(x=date,y=csum)) + geom_line(color="#69b3a2")+ylab("Total Cumulative Cases") + theme_minimal()
+p <- ggplotly(p)
+p
+
+p <- df_topten %>% filter(Country.Region != "China") %>% 
+        plot_ly(x=~date, y=~csum, group=~Country.Region,type="scatter",color=~Country.Region, mode="lines")
+p
+
 ```
 
 
@@ -52,6 +77,15 @@ Row
 ```{r}
 m
 ```
+
+Trend across countries.
+=======================================================================
+Row
+-----------------------------------------------------------------------
+```{r}
+p
+```
+
 
 
 
