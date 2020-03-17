@@ -1,0 +1,57 @@
+---
+title: "Coronavirus"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+``` {r setup, include=FALSE}
+#--------------Packages-------------------------
+library(devtools)
+#devtools::install_github("RamiKrispin/coronavirus")
+library(coronavirus)
+library(flexdashboard)
+library(tidyverse)
+library(ggmap)
+library(leaflet)
+library(htmltools)
+library(dplyr)
+#-------------Data-------------------------------
+data("coronavirus")
+df <- coronavirus
+
+df_us <- df %>% 
+            dplyr::filter(Country.Region=="US" & type=="confirmed" & cases >=1) %>%
+            dplyr::group_by(Country.Region, Province.State, Lat, Long) %>% summarise(total_cases=sum(cases))
+
+df_us <- df_us %>% 
+          dplyr::filter( !(Province.State %in% c('Guam','U.','Puerto Rico')))
+#----------Mapping-------------------------------
+m <- leaflet() %>%
+  addTiles() %>% 
+  addCircleMarkers(
+  lng=df_us$Long, lat=df_us$Lat,
+  radius = ifelse(df_us$total_cases < 5, 4,ifelse(df_us$total_cases >=5 &  df_us$total_cases < 25, 6,
+                                                   ifelse(df_us$total_cases>=25 & df_us$total_cases <100,12,
+                                                          ifelse(df_us$total_cases>=100 & df_us$total_cases <300,20,
+                                                                 ifelse(df_us$total_cases>=300 & df_us$total_cases <600,30,
+                                                                        ifelse(df_us$total_cases>=600 & df_us$total_cases <1000,40,50)))))),
+  color = "red",
+  stroke = FALSE, fillOpacity = 0.5,
+  label = htmlEscape(paste0(df_us$Province.State,",",df_us$total_cases)))
+  
+```
+
+
+Map
+=======================================================================
+Row
+-----------------------------------------------------------------------
+
+### Covid-19 distribution across US
+```{r}
+m
+```
+
+
+
