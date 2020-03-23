@@ -18,6 +18,8 @@ library(htmltools)
 library(dplyr)
 library(DT)
 library(plotly)
+library(data.table)
+
 #-------------Data-------------------------------
 data("coronavirus")
 df <- coronavirus
@@ -48,23 +50,32 @@ df_topten <- df %>%
                 filter(df$Country.Region %in% c("China","Italy","Iran","Spain","Korea, South",
                                                 "Germany","France","US","Switzerland","United Kingdom") & cases >= 1 & type=="confirmed")
 
+df_topten <- df %>% 
+                filter(df$Country.Region %in% c("China","Italy","Iran","Spain","US") & cases >= 1 & type=="confirmed")
+
 df_topten <- df_topten %>% 
                 group_by(Country.Region, date) %>%
                 arrange(Country.Region, date)
 
-library(data.table)
 df_topten <- data.table(df_topten, key = c("Country.Region"))
 df_topten[, csum := cumsum(cases), by = key(df_topten)]
 
-p <- df_topten %>% filter(Country.Region=="China") %>% 
-        ggplot(aes(x=date,y=csum)) + geom_line(color="#69b3a2")+ylab("Total Cumulative Cases") + theme_minimal()
-p <- ggplotly(p)
-p
+# p <- df_topten %>% filter(Country.Region=="China") %>% 
+#         ggplot(aes(x=date,y=csum)) + geom_line(color="#69b3a2")+ylab("Total Cumulative Cases") + theme_minimal()
+# p <- ggplotly(p)
+# p
 
-p <- df_topten %>% filter(Country.Region != "China") %>% 
-        plot_ly(x=~date, y=~csum, group=~Country.Region,type="scatter",color=~Country.Region, mode="lines")
+p <- df_topten %>% 
+        plot_ly(x=~date, y=~csum, group=~Country.Region,color=~Country.Region, mode="lines") %>% 
+        layout(xaxis = list(range=as.POSIXct(c('2020-01-20', '2020-03-25')), title="Date", hovermode = "compare",
+                 margin =  list(
+                   # l = 60,
+                   # r = 40,
+                   b = 10,
+                   t = 10,
+                   pad = 2
+                 )))
 p
-
 ```
 
 
