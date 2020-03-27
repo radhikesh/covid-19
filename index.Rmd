@@ -79,7 +79,6 @@ Trend across countries.
 =======================================================================
 Row
 -----------------------------------------------------------------------
-
 ### Trend across top 4 countries
 
 ```{r}
@@ -97,14 +96,12 @@ p <- df_topten %>%
 p
 ```
 
-Row {data-width=400}
------------------------------------------------------------------------
 ### Cases by week of the year
 ```{r}
 #-------------- Cases Per Week comparison ----------------------------------
 
 df_topten$week <- lubridate::week(df_topten$date)
-table(df_topten$Country.Region, df_topten$week)
+#table(df_topten$Country.Region, df_topten$week)
 
 
 cases_per_week <- df_topten %>% 
@@ -120,7 +117,7 @@ plot_per_week
 ```
 
 
-Row {data-width=400}
+Row 
 -----------------------------------------------------------------------
 
 ### Trend across weeks 
