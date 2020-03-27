@@ -12,14 +12,13 @@ library(devtools)
 library(coronavirus)
 library(flexdashboard)
 library(tidyverse)
-library(ggmap)
 library(leaflet)
 library(htmltools)
 library(dplyr)
 library(DT)
 library(plotly)
 library(data.table)
-
+library(lubridate)
 #-------------Data-------------------------------
 data("coronavirus")
 df <- coronavirus
@@ -30,6 +29,8 @@ df_us <- df %>%
 
 df_us <- df_us %>% 
           dplyr::filter( !(Province.State %in% c('Guam','U.','Puerto Rico')))
+
+
 #----------Mapping-------------------------------
 m <- leaflet() %>%
   addTiles() %>% 
@@ -60,22 +61,7 @@ df_topten <- df_topten %>%
 df_topten <- data.table(df_topten, key = c("Country.Region"))
 df_topten[, csum := cumsum(cases), by = key(df_topten)]
 
-# p <- df_topten %>% filter(Country.Region=="China") %>% 
-#         ggplot(aes(x=date,y=csum)) + geom_line(color="#69b3a2")+ylab("Total Cumulative Cases") + theme_minimal()
-# p <- ggplotly(p)
-# p
 
-p <- df_topten %>% 
-        plot_ly(x=~date, y=~csum, group=~Country.Region,color=~Country.Region, mode="lines") %>% 
-        layout(xaxis = list(range=as.POSIXct(c('2020-01-20', '2020-03-25')), title="Date", hovermode = "compare",
-                 margin =  list(
-                   # l = 60,
-                   # r = 40,
-                   b = 10,
-                   t = 10,
-                   pad = 2
-                 )))
-p
 ```
 
 
@@ -93,10 +79,62 @@ Trend across countries.
 =======================================================================
 Row
 -----------------------------------------------------------------------
+
+### Trend across top 4 countries
+
 ```{r}
+#-------- trend for top 10 countries -------------------------------
+p <- df_topten %>% 
+        plot_ly(x=~date, y=~csum, group=~Country.Region,color=~Country.Region, mode="lines") %>% 
+        layout(xaxis = list( title="Date", hovermode = "compare",
+                 margin =  list(
+                   # l = 60,
+                   # r = 40,
+                   b = 10,
+                   t = 10,
+                   pad = 2
+                 )))
 p
 ```
 
+Row {data-width=400}
+-----------------------------------------------------------------------
+### Cases by week of the year
+```{r}
+#-------------- Cases Per Week comparison ----------------------------------
 
+df_topten$week <- lubridate::week(df_topten$date)
+table(df_topten$Country.Region, df_topten$week)
+
+
+cases_per_week <- df_topten %>% 
+                      group_by(Country.Region,week) %>% 
+                        summarise(total_cases=sum(cases))
+
+
+plot_per_week <- cases_per_week %>% 
+                    plot_ly(x=~week, y=~total_cases, color=~Country.Region, type = "bar") %>% 
+                    layout(xaxis = list( title="By week", tickmode = "linear"))
+
+plot_per_week
+```
+
+
+Row {data-width=400}
+-----------------------------------------------------------------------
+
+### Trend across weeks 
+```{r}
+#------------------- comparison across week ---------------------------------------------------
+cases_per_week <- data.table(cases_per_week)
+cases_per_week <- cases_per_week[, `week_comp` := 1:.N, by = `Country.Region`]
+
+
+plot_per_same_week_no <- cases_per_week %>% 
+                    plot_ly(x=~week_comp, y=~total_cases, color=~Country.Region, type = "bar") %>% 
+                    layout(xaxis = list( title="By week", tickmode = "linear"))
+
+plot_per_same_week_no
+```
 
 
