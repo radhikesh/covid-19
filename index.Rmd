@@ -36,11 +36,11 @@ m <- leaflet() %>%
   addTiles() %>% 
   addCircleMarkers(
   lng=df_us$Long, lat=df_us$Lat,
-  radius = ifelse(df_us$total_cases < 5, 4,ifelse(df_us$total_cases >=5 &  df_us$total_cases < 25, 6,
-                                                   ifelse(df_us$total_cases>=25 & df_us$total_cases <100,12,
-                                                          ifelse(df_us$total_cases>=100 & df_us$total_cases <300,20,
-                                                                 ifelse(df_us$total_cases>=300 & df_us$total_cases <600,30,
-                                                                        ifelse(df_us$total_cases>=600 & df_us$total_cases <1000,40,50)))))),
+  radius = ifelse(df_us$total_cases < 500, 4,ifelse(df_us$total_cases >=500 &  df_us$total_cases < 1000, 6,
+                                                   ifelse(df_us$total_cases>=1000 & df_us$total_cases <5000,12,
+                                                          ifelse(df_us$total_cases>=5000 & df_us$total_cases <15000,20,
+                                                                 ifelse(df_us$total_cases>=15000 & df_us$total_cases <30000,30,
+                                                                        ifelse(df_us$total_cases>=30000 & df_us$total_cases <40000,40,50)))))),
   color = "red",
   stroke = FALSE, fillOpacity = 0.5,
   label = htmlEscape(paste0(df_us$Province.State,",",df_us$total_cases)))
