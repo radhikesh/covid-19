@@ -61,7 +61,7 @@ df_topten <- df_topten %>%
 df_topten <- data.table(df_topten, key = c("Country.Region"))
 df_topten[, csum := cumsum(cases), by = key(df_topten)]
 
-
+m
 ```
 
 
