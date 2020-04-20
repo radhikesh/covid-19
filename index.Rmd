@@ -7,18 +7,10 @@ output:
 
 ``` {r setup, include=FALSE}
 #--------------Packages-------------------------
-library(devtools)
 #devtools::install_github("RamiKrispin/coronavirus", force=T)
-library(coronavirus)
-library(flexdashboard)
-library(tidyverse)
-library(leaflet)
-library(htmltools)
-library(dplyr)
-library(DT)
-library(plotly)
-library(data.table)
-library(lubridate)
+library(pacman)
+p_load("devtools","coronavirus","flexdashboard","tidyverse","leaflet",
+       "htmltools","dplyr","DT","plotly","data.table","lubridate")
 #-------------Data-------------------------------
 data("coronavirus")
 df <- coronavirus
