@@ -12,8 +12,8 @@ library(pacman)
 p_load("devtools","coronavirus","flexdashboard","tidyverse","leaflet",
        "htmltools","dplyr","DT","plotly","data.table","lubridate")
 #-------------Data-------------------------------
-data("coronavirus")
-df <- coronavirus
+
+df <- readRDS(file = "data/newdata.RDS")
 
 df_us <- df %>% 
             dplyr::filter(Country.Region=="US" & type=="confirmed" & cases >=1) %>%
