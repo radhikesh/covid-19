@@ -33,7 +33,7 @@ get_data <- function(){
   
   data("coronavirus")
   
-  saveRDS(coronavirus, "data/newdata.RDS")
+  saveRDS(coronavirus, "/home/master/covid-19/data/newdata.RDS")
   print("new data saved")
 }
 
