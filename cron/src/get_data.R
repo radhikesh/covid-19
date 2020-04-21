@@ -34,11 +34,10 @@ get_data <- function(){
   
   data("coronavirus")
   
-  saveRDS(coronavirus, 
-          "C:/Users/rranadive/OneDrive - University of Mississippi Medical Center/Project1/data challenge/covid-19/data/newdata.RDS")
+  saveRDS(coronavirus, "/home/rradhikesh/projects/covid-19/data/newdata.RDS")
   print("new data saved")
 }
 
 get_data()
-
-rmarkdown::render_site(input = "C:/Users/rranadive/OneDrive - University of Mississippi Medical Center/Project1/data challenge/covid-19/index.Rmd")
+Sys.setenv(RSTUDIO_PANDOC="/usr/lib/rstudio-server/bin/pandoc")
+rmarkdown::render_site(input = "/home/rradhikesh/projects/covid-19/index.Rmd")
