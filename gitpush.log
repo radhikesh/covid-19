@@ -2,3 +2,6 @@
  1 file changed, 38 deletions(-)
  rewrite gitpush.log (100%)
 fatal: could not read Username for 'https://github.com': No such device or address
+[master cccf013] update data
+ 1 file changed, 4 insertions(+)
+fatal: could not read Username for 'https://github.com': No such device or address
