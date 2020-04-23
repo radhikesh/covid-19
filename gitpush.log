@@ -5,3 +5,6 @@ fatal: could not read Username for 'https://github.com': No such device or addre
 [master 78bebd7] update data
  2 files changed, 4 insertions(+), 1 deletion(-)
 fatal: could not read Username for 'https://github.com': No such device or address
+On branch master
+nothing to commit, working tree clean
+fatal: could not read Username for 'https://github.com': No such device or address
