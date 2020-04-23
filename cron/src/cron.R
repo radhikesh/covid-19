@@ -3,7 +3,7 @@ library(cronR)
 #--> job 1:
 path <- "/home/rradhikesh/projects/covid-19/cron/src/get_data.R"
 cmd <- cron_rscript(path)
-cron_add(cmd, frequency = '5 0 * * *', id = 'job1', description = 'Every day at 00:05')   
+cron_add(cmd, frequency = '0 6 * * *', id = 'job1', description = 'Every day at 00:05')   
 
 #--> job 2:
 # path <- "/home/rradhikesh/projects/covid-19/cron/src/gitpush.sh"
@@ -16,4 +16,4 @@ cron_add(cmd, frequency = '5 0 * * *', id = 'job1', description = 'Every day at 
 #cron_clear(ask=FALSE)
 
 
-cron_rm(id = "job1")
+#cron_rm(id = "job1")

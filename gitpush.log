@@ -8,3 +8,7 @@ fatal: could not read Username for 'https://github.com': No such device or addre
 On branch master
 nothing to commit, working tree clean
 fatal: could not read Username for 'https://github.com': No such device or address
+[master 6f14f72] update data
+ 2 files changed, 8 insertions(+)
+To github.com:radhikesh/covid-19.git
+   56a103c..6f14f72  master -> master
