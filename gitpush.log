@@ -1,0 +1,4 @@
+[master 4838997] update data
+ 1 file changed, 88 deletions(-)
+ rewrite gitpush.log (100%)
+fatal: could not read Username for 'https://github.com': No such device or address
