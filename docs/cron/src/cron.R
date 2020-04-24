@@ -17,3 +17,4 @@ cron_add(cmd, frequency = '0 6 * * *', id = 'job1', description = 'Every day at 
 
 
 #cron_rm(id = "job1")
+#git remote set-url origin git@github.com:radhikesh/covid-19.git
