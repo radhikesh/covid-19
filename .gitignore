@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 docs/README.html
+gitpush.log
+cron/src/get_data.log
