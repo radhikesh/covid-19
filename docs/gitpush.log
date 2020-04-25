@@ -19,3 +19,10 @@ To github.com:radhikesh/covid-19.git
  rewrite docs/gitpush.log (82%)
 To github.com:radhikesh/covid-19.git
    6f14f72..641a50d  master -> master
+[master a4d05c2] update data
+ 9 files changed, 256 insertions(+), 8 deletions(-)
+ rewrite data/newdata.RDS (93%)
+ rewrite docs/data/newdata.RDS (93%)
+Warning: Permanently added the RSA host key for IP address '140.82.114.3' to the list of known hosts.
+To github.com:radhikesh/covid-19.git
+   641a50d..a4d05c2  master -> master
